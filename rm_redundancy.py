@@ -1,5 +1,14 @@
-with open('./fans.2017-09-24_12-22-47.txt') as f:
-    lines = f.readlines()
+
+
+from os import listdir
+from os import path
+
+fans_files = [path.join('./out', f) for f in listdir('./out') if 'fans.' in f]
+lines = []
+
+for fans_file in fans_files:
+    with open(fans_file) as f:
+        lines.extend(f.readlines())
 
 for line in set(lines):
     print(line.strip())
