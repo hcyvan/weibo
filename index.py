@@ -7,7 +7,7 @@ time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',
-                    filename='myapp.{}.log'.format(time_str),
+                    filename='./log/myapp.{}.log'.format(time_str),
                     filemode='w')
 
 
