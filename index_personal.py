@@ -1,9 +1,9 @@
 import logging
 from datetime import datetime
+import sys
 from spider import get_personal_page_id_by_uid, get_personal_info_by_page_id, get_personal_fans_by_page_id
 
 time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-
 
 out_file = './out/fans.p.{}.txt'.format(time_str)
 log_file = './log/myapp.p.{}.log'.format(time_str)
@@ -13,11 +13,17 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%a, %d %b %Y %H:%M:%S',
                     filename=log_file, filemode='w')
 
-def get_libang_fans():
-    with open('./fans_id_name.txt') as f:
-        fans = f.readlines()
+if len(sys.argv) > 1:
+    input_file = sys.argv[1]
+else:
+    input_file = 'fans_id_name.txt'
 
+
+def get_libang_fans():
+    with open('./{}'.format(input_file)) as f:
+        fans = f.readlines()
     return [fan.strip().split(',') for fan in fans]
+
 
 libang_fans = get_libang_fans()
 
@@ -25,6 +31,7 @@ libang_fans = get_libang_fans()
 def info(msg):
     logging.info(msg)
     print(msg)
+
 
 for libang_fan in libang_fans:
     uid = libang_fan[0]

@@ -55,7 +55,7 @@ def get_personal_page_id_by_uid(uid):
     match = pattern.search(response.text)
     if match:
         return match.group(2)
-    return '100505'+str(uid)
+    return '100505' + str(uid)
 
 
 def get_personal_info_by_page_id(page_id):
@@ -93,4 +93,3 @@ if __name__ == '__main__':
     # print(search_users_by_char('w'))
     # print(get_one_page_by_order(1))
     print(get_personal_page_id_by_uid(3921447404))
-
