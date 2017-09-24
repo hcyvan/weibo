@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 import sys
+import time
 from spider import get_personal_page_id_by_uid, get_personal_info_by_page_id, get_personal_fans_by_page_id
 
 time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -52,6 +53,7 @@ for libang_fan in libang_fans:
         f.writelines('>>>>>> Fans:\n')
         page = 1
         while True:
+            # time.sleep(1)
             info('------ Personal Fans Page: {}'.format(page))
             fans_in_current_page = get_personal_fans_by_page_id(page_id, page)
             if not fans_in_current_page:
