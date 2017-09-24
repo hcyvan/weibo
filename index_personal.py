@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
 import sys
+import os
 import time
 from spider import get_personal_page_id_by_uid, get_personal_info_by_page_id, get_personal_fans_by_page_id
 
@@ -29,10 +30,23 @@ def get_libang_fans():
 libang_fans = get_libang_fans()
 
 
+def generate_file_name():
+    if not os.path.exists(out_file):
+        return out_file
+    file_size = os.path.getsize(out_file)
+    if file_size > 20000000:
+        out_file_name = './out/fans.p.{}.txt'.format(datetime.now().strftime("%Y-%m-%d_%H-%M-%S"))
+        return out_file_name
+    else:
+        return out_file
+
+
+print(generate_file_name())
+
+
 def info(msg):
     logging.info(msg)
     print(msg)
-
 
 for libang_fan in libang_fans:
     uid = libang_fan[0]
