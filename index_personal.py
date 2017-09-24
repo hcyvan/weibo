@@ -3,6 +3,7 @@ from datetime import datetime
 import sys
 import os
 import time
+import random
 from spider import get_personal_page_id_by_uid, get_personal_info_by_page_id, get_personal_fans_by_page_id
 
 time_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -14,6 +15,8 @@ logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s %(levelname)s %(message)s',
                     datefmt='%a, %d %b %Y %H:%M:%S',
                     filename=log_file, filemode='w')
+
+print()
 
 if len(sys.argv) > 1:
     input_file = sys.argv[1]
@@ -40,10 +43,6 @@ def generate_file_name():
     else:
         return out_file
 
-
-print(generate_file_name())
-
-
 def info(msg):
     logging.info(msg)
     print(msg)
@@ -67,7 +66,7 @@ for libang_fan in libang_fans:
         f.writelines('>>>>>> Fans:\n')
         page = 1
         while True:
-            # time.sleep(1)
+            time.sleep(random.uniform(0, 2))
             info('------ Personal Fans Page: {}'.format(page))
             fans_in_current_page = get_personal_fans_by_page_id(page_id, page)
             if not fans_in_current_page:
