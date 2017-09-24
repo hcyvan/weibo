@@ -30,4 +30,6 @@ def search_users_by_char(char):
     return id_names
 
 
-print(search_users_by_char('我'))
+if __name__ == '__main__':
+    print(search_users_by_char('珲'))
+
