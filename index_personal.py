@@ -66,7 +66,7 @@ for libang_fan in libang_fans:
         f.writelines('>>>>>> Fans:\n')
         page = 1
         while True:
-            time.sleep(random.uniform(0, 2))
+            time.sleep(0.5)
             info('------ Personal Fans Page: {}'.format(page))
             fans_in_current_page = get_personal_fans_by_page_id(page_id, page)
             if not fans_in_current_page:
