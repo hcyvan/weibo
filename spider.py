@@ -27,7 +27,8 @@ def get_one_page_by_order(page, t=1):
                    "Pl_Official_RelationFans__66_page": page}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
-    pattern = re.compile('uid=(\d+)&nick=(.*?)\\\\')
+    pattern = re.compile('关注(?:.*?)>(\d+)<(?:.*?)粉丝(?:.*?)>(\d+)<(?:.*?)uid=(\d+)&nick=(.*?)\\\\')
+
     return pattern.findall(response.text)
 
 
@@ -91,5 +92,5 @@ def get_personal_fans_by_page_id(page_id, page=1):
 
 if __name__ == '__main__':
     # print(search_users_by_char('w'))
-    # print(get_one_page_by_order(1))
-    print(get_personal_page_id_by_uid(3921447404))
+    print(get_one_page_by_order(1))
+    # print(get_personal_page_id_by_uid(3921447404))
