@@ -16,8 +16,6 @@ logging.basicConfig(level=logging.INFO,
                     datefmt='%a, %d %b %Y %H:%M:%S',
                     filename=log_file, filemode='w')
 
-print()
-
 if len(sys.argv) > 1:
     input_file = sys.argv[1]
 else:
@@ -47,7 +45,26 @@ def info(msg):
     logging.info(msg)
     print(msg)
 
+def get_interval(seed):
+    return seed+int(random.uniform(0,seed))
+
+work_seed=1800
+stop_seed=1800
+
+start_time=time.time()
+work_time=get_interval(work_seed)
+info('working for {} s'.format(work_time))        
+
 for libang_fan in libang_fans:
+    real_work_time = time.time() - start_time
+    if real_work_time > work_time:
+        sleep_time=get_interval(stop_seed)
+        info('sleeping for {} s'.format(sleep_time))
+        time.sleep(sleep_time)
+        start_time = time.time()
+        work_time=get_interval(work_seed)
+        info('working for {} s'.format(work_time))        
+
     uid = libang_fan[0]
     nickname = libang_fan[1]
     info('Personal uid: {}, name: {}'.format(uid, nickname))
