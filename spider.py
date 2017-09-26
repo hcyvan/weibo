@@ -27,7 +27,7 @@ def get_one_page_by_order(page, t=1):
                    "Pl_Official_RelationFans__66_page": page}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
-    pattern = re.compile('关注(?:.*?)>(\d+)<(?:.*?)粉丝(?:.*?)>(\d+)<(?:.*?)uid=(\d+)&nick=(.*?)\\\\')
+    pattern = re.compile('关注(?:.*?)>(\d+)<(?:.*?)粉丝(?:.*?)>(\d+)<(?:.*?)微博(?:.*?)>(\d+)<(?:.*?)uid=(\d+)&nick=(.*?)\\\\')
 
     return pattern.findall(response.text)
 
