@@ -1,5 +1,5 @@
 import logging
-import os
+import time
 from datetime import datetime
 from spider import get_personal_page_info_by_uid
 
@@ -24,6 +24,7 @@ sups = get_sups()
 
 i = 1
 for uid in sups:
+    time.sleep(6)
     info = '{}. Get uid: {}'.format(i, uid)
     logging.info(info)
     print(info)

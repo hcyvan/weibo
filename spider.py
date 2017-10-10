@@ -105,6 +105,16 @@ def get_personal_page_info_by_uid(uid):
     final, html = _get_personal_page_info(new_url)
     if final:
         return final
+
+    pattern_new_url = re.compile('url(?:.*?)"(https.*?)"')
+    match = pattern_new_url.search(html)
+    new_url = ''
+    if match:
+        new_url = match.group(1)
+
+    final, html = _get_personal_page_info(new_url)
+    if final:
+        return final
     else:
         raise Exception('something wrong')
 
