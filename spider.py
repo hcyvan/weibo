@@ -27,7 +27,8 @@ def get_one_page_by_order(page, t=1):
                    "Pl_Official_RelationFans__66_page": page}
 
     response = requests.request("GET", url, headers=headers, params=querystring)
-    pattern = re.compile('关注(?:.*?)>(\d+)<(?:.*?)粉丝(?:.*?)>(\d+)<(?:.*?)微博(?:.*?)>(\d+)<(?:.*?)uid=(\d+)&nick=(.*?)\\\\')
+    pattern = re.compile(
+        '关注(?:.*?)>(\d+)<(?:.*?)粉丝(?:.*?)>(\d+)<(?:.*?)微博(?:.*?)>(\d+)<(?:.*?)uid=(\d+)&nick=(.*?)\\\\')
 
     return pattern.findall(response.text)
 
@@ -57,6 +58,55 @@ def get_personal_page_id_by_uid(uid):
     if match:
         return match.group(2)
     return '100505' + str(uid)
+
+
+def _get_personal_page_info(url):
+    response = requests.request("GET", url, headers=headers)
+
+    pattern_intro = re.compile('pf_intro(?:.*?)title=\\\\"(.*?)\\\\">')
+    pattern_counts = re.compile(
+        '<strong(?:.*?)>(.*?)<(?:.*?)关注(?:.*?)<strong(?:.*?)>(.*?)<(?:.*?)粉丝(?:.*?)<strong(?:.*?)>(.*?)<(?:.*?)微博')
+
+    match = pattern_intro.search(response.text)
+    intro = ''
+    if match:
+        intro = match.group(1)
+
+    match = pattern_counts.search(response.text)
+    fans_count = ''
+    concern_count = ''
+    weibo_count = ''
+    if match:
+        fans_count = match.group(1)
+        concern_count = match.group(2)
+        weibo_count = match.group(3)
+
+    final = '{}<|>{}<|>{}<|>{}'.format(fans_count, concern_count, weibo_count, intro)
+
+    if final != '<|><|><|>':
+        return final, response.text
+
+    return '', response.text
+
+
+def get_personal_page_info_by_uid(uid):
+    url = "https://weibo.com/u/{}".format(uid)
+
+    final, html = _get_personal_page_info(url)
+    if final:
+        return final
+
+    pattern_new_url = re.compile('url(?:.*?)"(https.*?)"')
+    match = pattern_new_url.search(html)
+    new_url = ''
+    if match:
+        new_url = match.group(1)
+
+    final, html = _get_personal_page_info(new_url)
+    if final:
+        return final
+    else:
+        raise Exception('something wrong')
 
 
 def get_personal_info_by_page_id(page_id):
@@ -92,5 +142,5 @@ def get_personal_fans_by_page_id(page_id, page=1):
 
 if __name__ == '__main__':
     # print(search_users_by_char('w'))
-    print(get_one_page_by_order(1))
-    # print(get_personal_page_id_by_uid(3921447404))
+    # print(get_one_page_by_order(1))
+    get_personal_page_info_by_uid(1039096957)

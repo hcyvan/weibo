@@ -3,3 +3,4 @@ __pycache__/
 a.html
 venv/
 out-bac/
+.DS_Store
